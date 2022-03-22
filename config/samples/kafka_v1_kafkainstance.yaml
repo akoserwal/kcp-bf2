@@ -1,0 +1,9 @@
+apiVersion: kafka.pmuir/v1
+kind: KafkaInstance
+metadata:
+  name: kafkainstance-sample
+spec:
+  name: pete-kcp
+  region: us-east-1
+  cloudProvider: aws
+  multiAz: true
