@@ -20,6 +20,7 @@ import (
 	"flag"
 	"os"
 	"pmuir/kcp-bf2/controllers/kafka"
+	"pmuir/kcp-bf2/controllers/kafkatopic"
 	"pmuir/kcp-bf2/controllers/serviceaccount"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -106,6 +107,21 @@ func main() {
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ServiceAccountPeriodic")
+		os.Exit(1)
+	}
+
+	if err = (&kafkatopic.KafkaTopicReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KafkaTopic")
+		os.Exit(1)
+	}
+	if err = (&kafkatopic.KafkaTopicPeriodicReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KafkaTopicPeriodic")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

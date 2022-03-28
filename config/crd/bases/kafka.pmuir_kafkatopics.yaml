@@ -16,7 +16,17 @@ spec:
     singular: kafkatopic
   scope: Namespaced
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - jsonPath: .metadata.labels['kafka\.pmuir\/kafka-instance']
+      name: KafkaInstance
+      type: string
+    - jsonPath: .spec.partitions
+      name: Partitions
+      type: string
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    name: v1
     schema:
       openAPIV3Schema:
         description: KafkaTopic is the Schema for the kafkatopic API
@@ -38,9 +48,12 @@ spec:
               `
             properties:
               config:
-                type: string
+                additionalProperties:
+                  type: string
+                type: object
               partitions:
                 default: 1
+                format: int32
                 minimum: 1
                 type: integer
               topicName:
@@ -56,10 +69,15 @@ spec:
                   of cluster Important: Run "make" to regenerate code after modifying
                   this file'
                 type: string
+              phase:
+                description: KafkaTopicPhase is a valid value for KafkaTopicStatus.Phase
+                type: string
             type: object
         type: object
     served: true
     storage: true
+    subresources:
+      status: {}
 status:
   acceptedNames:
     kind: ""

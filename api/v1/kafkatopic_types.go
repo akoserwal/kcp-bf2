@@ -30,27 +30,36 @@ type KafkaTopicSpec struct {
 
 	// +kubebuilder:validation:Minimum=1
 	// +kubebuilder:default=1
-	Partitions int `json:"partitions,omitempty"`
+	Partitions int32 `json:"partitions,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TopicName string `json:"topicName"`
 
-	Config string `json:"config,omitempty"`
+	Config map[string]string `json:"config,omitempty"`
 }
+
+// KafkaTopicPhase is a valid value for KafkaTopicStatus.Phase
+type KafkaTopicPhase string
 
 // KafkaTopicStatus defines the observed state of a topic
 type KafkaTopicStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Message string `json:"message,omitempty"`
-	Ready   bool   `json:"ready,omitempty"`
+	Message string          `json:"message,omitempty"`
+	Phase   KafkaTopicPhase `json:"phase,omitempty"`
 }
+
+// These are valid phases of a Pod
+const (
+	KafkaTopicUnknown KafkaTopicPhase = "Unknown"
+	KafkaTopicReady   KafkaTopicPhase = "Ready"
+)
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="KafkaInstance",type=string,JSONPath=`.metadata.labels.kafka\.pmuir/kafkaInstance`
+// +kubebuilder:printcolumn:name="KafkaInstance",type=string,JSONPath=`.metadata.labels['kafka\.pmuir\/kafka-instance']`
 // +kubebuilder:printcolumn:name="Partitions",type=string,JSONPath=`.spec.partitions`
-// +kubebuilder:printcolumn:name="Ready",type=string,JSONPath=`.status.ready`
+// +kubebuilder:printcolumn:name="Phase",type=string,JSONPath=`.status.phase`
 
 // KafkaTopic is the Schema for the kafkatopic API
 type KafkaTopic struct {

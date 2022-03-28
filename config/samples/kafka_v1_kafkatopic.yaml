@@ -1,0 +1,9 @@
+apiVersion: kafka.pmuir/v1
+kind: KafkaTopic
+metadata:
+  name: kafkatopic-sample
+  labels:
+      kafka.pmuir/kafka-instance: kafkainstance-sample
+spec:
+  topicName: kafkatopic-sample
+  partitions: 3

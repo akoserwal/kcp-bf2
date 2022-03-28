@@ -9,6 +9,32 @@ rules:
 - apiGroups:
   - kafka.pmuir
   resources:
+  - kafkaTopics
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kafka.pmuir
+  resources:
+  - kafkaTopics/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - kafka.pmuir
+  resources:
+  - kafkaTopics/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - kafka.pmuir
+  resources:
   - kafkainstances
   verbs:
   - create
