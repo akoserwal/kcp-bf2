@@ -149,7 +149,7 @@ func (r *KafkaInstanceReconciler) createKafkaInstance(ctx context.Context, kafka
 	}
 	log.Info("creating Kafka using kas-fleet-manager", "RequestPayload", payload, "KafkaInstance", kafkaInstance)
 	kafkaRequest, _, err := c.DefaultApi.CreateKafka(ctx).KafkaRequestPayload(payload).Async(true).Execute()
-	//adminApiServerUrl := kafkaRequest.AdminApiServerUrl
+
 	if err != nil {
 		apiErr := utils.GetAPIError(err)
 		kafkaInstance.Status.Message = fmt.Sprintf("%s %s", apiErr.GetCode(), apiErr.GetReason())
