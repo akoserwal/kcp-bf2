@@ -38,6 +38,7 @@ type KafkaInstanceSpec struct {
 type KafkaInstanceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	AdminServerUl       string      `json:"adminServerUl"`
 	CreatedAt           metav1.Time `json:"region,omitempty"`
 	Href                string      `json:"href,omitempty"`
 	Id                  string      `json:"id,omitempty"`

@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1 contains API Schema definitions for the kafka v1 API group
-//+kubebuilder:object:generate=true
-//+groupName=kafka.pmuir
+// +kubebuilder:object:generate=true
+// +groupName=kafka.pmuir
 package v1
 
 import (

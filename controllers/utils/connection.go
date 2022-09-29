@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	kafkainstanceclient "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1/client"
 	kafkamgmt "github.com/redhat-developer/app-services-sdk-go/kafkamgmt/apiv1"
 	"github.com/redhat-developer/app-services-sdk-go/kafkamgmt/apiv1/client"
 	"golang.org/x/oauth2"
@@ -30,5 +31,11 @@ func BuildKasAPIClient(offlineToken string, clientID string, authURL string, api
 	return kafkamgmt.NewAPIClient(&kafkamgmt.Config{
 		HTTPClient: buildAuthenticatedHTTPClient(offlineToken, clientID, authURL),
 		BaseURL:    apiURL,
+	})
+}
+
+func BuildDataAPIClient(offlineToken string, clientID string, authURL string, apiURL string) *kafkainstanceclient.APIClient {
+	return kafkainstanceclient.NewAPIClient(&kafkainstanceclient.Configuration{
+		HTTPClient: buildAuthenticatedHTTPClient(offlineToken, clientID, authURL),
 	})
 }

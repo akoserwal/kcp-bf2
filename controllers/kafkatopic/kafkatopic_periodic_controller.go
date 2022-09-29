@@ -98,7 +98,7 @@ func (r *KafkaTopicPeriodicReconciler) periodicReconcile(ctx context.Context, re
 		if err != nil {
 			return errors.WithStack(err)
 		}
-		kafkaAdmin, err := utils.CreateKafkaAdmin(ctx, kafkaInstance.Status.BootstrapServerHost, clientId, clientSecret)
+		kafkaAdmin, err := utils.CreateKafkaAdmin(ctx, kafkaInstance.Status.AdminServerUl, clientId, clientSecret)
 		if err != nil {
 			return errors.WithStack(err)
 		}

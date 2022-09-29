@@ -45,9 +45,9 @@ type ServiceAccountReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/finalizers,verbs=update
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/finalizers,verbs=update
 func (r *ServiceAccountReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	var serviceAccount kafkav1.CloudServiceAccount
 

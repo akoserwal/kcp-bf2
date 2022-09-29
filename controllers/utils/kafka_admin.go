@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/pkg/errors"
-	kafkainstance "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1internal"
-	kafkainstanceclient "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1internal/client"
+	kafkainstance "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1"
+	kafkainstanceclient "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1/client"
 	kafkamgmtclient "github.com/redhat-developer/app-services-sdk-go/kafkamgmt/apiv1/client"
 	"golang.org/x/oauth2/clientcredentials"
 	corev1 "k8s.io/api/core/v1"
@@ -18,11 +18,11 @@ func CreateKafkaAdmin(ctx context.Context, bootstrapServerHost string, clientId 
 	ts := clientcredentials.Config{
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
-		TokenURL:     "https://identity.api.openshift.com/auth/realms/rhoas/protocol/openid-connect/token",
+		TokenURL:     "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token",
 	}
-
+	fmt.Println(bootstrapServerHost)
 	client := kafkainstance.NewAPIClient(&kafkainstance.Config{
-		BaseURL:    fmt.Sprintf("https://admin-server-%s", bootstrapServerHost),
+		BaseURL:    bootstrapServerHost,
 		HTTPClient: ts.Client(ctx),
 	})
 

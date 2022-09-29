@@ -38,9 +38,9 @@ type KafkaInstanceReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/finalizers,verbs=update
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=kafkainstances/finalizers,verbs=update
 func (r *KafkaInstanceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	var kafkaInstance kafkav1.KafkaInstance
 
@@ -143,13 +143,13 @@ func (r *KafkaInstanceReconciler) createKafkaInstance(ctx context.Context, kafka
 	// This means it's a new Kafka
 	payload := kafkamgmtclient.KafkaRequestPayload{
 		CloudProvider:           stringToPointer(kafkaInstance.Spec.CloudProvider),
-		MultiAz:                 kafkaInstance.Spec.MultiAz,
 		Name:                    kafkaInstance.Spec.Name,
 		Region:                  stringToPointer(kafkaInstance.Spec.Region),
 		ReauthenticationEnabled: *kafkamgmtclient.NewNullableBool(kafkaInstance.Spec.ReauthenticationEnabled),
 	}
 	log.Info("creating Kafka using kas-fleet-manager", "RequestPayload", payload, "KafkaInstance", kafkaInstance)
 	kafkaRequest, _, err := c.DefaultApi.CreateKafka(ctx).KafkaRequestPayload(payload).Async(true).Execute()
+	//adminApiServerUrl := kafkaRequest.AdminApiServerUrl
 	if err != nil {
 		apiErr := utils.GetAPIError(err)
 		kafkaInstance.Status.Message = fmt.Sprintf("%s %s", apiErr.GetCode(), apiErr.GetReason())

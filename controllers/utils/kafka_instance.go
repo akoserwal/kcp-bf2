@@ -28,6 +28,7 @@ func ConvertToKafkaInstanceSpec(kafkaRequest kafkamgmtclient.KafkaRequest, kafka
 
 func ConvertToKafkaInstanceStatus(kafkaRequest kafkamgmtclient.KafkaRequest, kafkaInstance *kafkav1.KafkaInstance) {
 	// Otherwise, we need to update the Kafka status
+	kafkaInstance.Status.AdminServerUl = kafkaRequest.GetAdminApiServerUrl()
 	kafkaInstance.Status.InstanceType = kafkaRequest.GetInstanceType()
 	kafkaInstance.Status.BootstrapServerHost = kafkaRequest.GetBootstrapServerHost()
 	kafkaInstance.Status.CreatedAt.Time = kafkaRequest.GetCreatedAt()

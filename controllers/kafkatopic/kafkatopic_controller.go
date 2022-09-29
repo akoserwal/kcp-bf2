@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/pkg/errors"
-	kafkainstanceclient "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1internal/client"
+	kafkainstanceclient "github.com/redhat-developer/app-services-sdk-go/kafkainstance/apiv1/client"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -38,9 +38,9 @@ type KafkaTopicReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics/finalizers,verbs=update
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=kafka.pmuir,resources=KafkaTopics/finalizers,verbs=update
 func (r *KafkaTopicReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	var kafkaTopic kafkav1.KafkaTopic
 
@@ -172,7 +172,7 @@ func (r *KafkaTopicReconciler) buildKafkaAdmin(ctx context.Context, offlineToken
 			return nil, errors.WithStack(err)
 		}
 
-		kafkaAdmin, err := utils.CreateKafkaAdmin(ctx, kafkaInstance.Status.BootstrapServerHost, clientId, clientSecret)
+		kafkaAdmin, err := utils.CreateKafkaAdmin(ctx, kafkaInstance.Status.AdminServerUl, clientId, clientSecret)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
